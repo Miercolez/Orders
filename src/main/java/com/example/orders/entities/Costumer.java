@@ -12,6 +12,7 @@ public class Costumer {
     private Long id;
     private String realName;
     private int orderQuantity;
+    private int totalPrice;
     private String orderTime = new Timestamp(System.currentTimeMillis()).toString().substring(0,19);
 
     @ElementCollection
@@ -61,5 +62,13 @@ public class Costumer {
 
     public void setOrderQuantity(int orderQuantity) {
         this.orderQuantity = orderQuantity;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
