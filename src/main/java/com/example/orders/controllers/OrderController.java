@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.converter.GsonMessageConverter;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -32,6 +31,17 @@ public class OrderController {
     @GetMapping("/orders")
     List<Costumer> getAllOrders() {
         return orderRepository.findAll();
+    }
+
+    @GetMapping("/orders/{orderId}")
+    Costumer getOrderByOderId(@PathVariable("orderId") Long orderId) {
+
+        Costumer order = orderRepository.findOrderByOrderId(orderId);
+
+        if (order == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        return order;
     }
 
     @PostMapping("/orders/{name}")
