@@ -33,7 +33,7 @@ public class OrderController {
         return orderRepository.findAll();
     }
 
-    @GetMapping("/orders/{orderId}")
+    @GetMapping("/orders/orderid={orderId}")
     Costumer getOrderByOderId(@PathVariable("orderId") Long orderId) {
 
         Costumer order = orderRepository.findOrderByOrderId(orderId);
@@ -44,7 +44,7 @@ public class OrderController {
         return order;
     }
 
-    @PostMapping("/orders/{name}")
+    @PostMapping("/orders/pizza={name}")
     ResponseEntity<Costumer> sendOrder(@RequestBody Costumer costumer, @PathVariable("name") String name) {
 
         String[] pizzas = name.split(",");
