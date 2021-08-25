@@ -33,7 +33,7 @@ public class OrderController {
         return orderRepository.findAll();
     }
 
-    @GetMapping("/orders/orderid={orderId}")
+    @GetMapping("/orders/{orderId}")
     Costumer getOrderByOderId(@PathVariable("orderId") Long orderId) {
 
         Costumer order = orderRepository.findOrderByOrderId(orderId);
@@ -44,21 +44,21 @@ public class OrderController {
         return order;
     }
 
-    @PostMapping("/orders/pizza={name}")
+    @PostMapping("/orders/{name}")
     ResponseEntity<Costumer> sendOrder(@RequestBody Costumer costumer, @PathVariable("name") String name) {
 
         String[] pizzas = name.split(",");
 
-        List<String> result = new ArrayList<>();
         int price = 0;
 
-        RestTemplate restTemplate = new RestTemplate();
+        List<String> result = new ArrayList<>();
 
         for (int i = 0; i < pizzas.length; i++) {
             try{
-                String[] res = restTemplate.getForObject(uri + pizzas[i], String.class).split("[:,\"]+");
+                String[] res = new RestTemplate().getForObject(uri + pizzas[i], String.class).split("[:,\"]+");
                 result.add("Name: " + res[4] + ", Price: " + res[6] + "kr");
                 price += Integer.parseInt(res[6]);
+
             }catch (HttpClientErrorException e){
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find the pizza");
             }
